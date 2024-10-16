@@ -1,20 +1,23 @@
 @echo off
 :check_Permissions
-echo Administrative permissions required. Detecting permissions...
 
 net session >nul 2>&1
 if %errorLevel% == 0 (
-    echo Success: Administrative permissions confirmed.
+    echo Success: Administrative privileges confirmed.
 ) else (
-    echo Failure: You need to run this as Admin!!!
+    echo Error: This batch file requires administrative privileges.
+	echo Right-click OutlookNewBlocker.bat and click "Run as administrator."
+	echo.
     pause
     goto konec
 )
 
-echo Copying AppxManifest.xml to C:\Users\
-copy "%~dp0AppxManifest.xml" "C:\Users\" >nul
+echo Copying AppxManifest.xml to %AppData%\OutlookNewBlocker
+if not exist %AppData%\OutlookNewBlocker mkdir %AppData%\OutlookNewBlocker
+copy "%~dp0AppxManifest.xml" "%AppData%\OutlookNewBlocker" >nul
 if %errorLevel% neq 0 (
-    echo Error: Failed to copy the file. Check the file path and try again.
+    echo Error: Failed to copy the file. Check if you have AppxManifest.xml file downloaded.
+	echo.
     pause
     goto konec
 )
@@ -26,6 +29,10 @@ echo Removing Outlook appx package...
 powershell "get-appxpackage -allusers Microsoft.OutlookForWindows | Remove-AppxPackage -allusers"
 
 echo Registering AppxManifest.xml...
-powershell add-appxpackage -register "C:\Users\AppxManifest.xml"
+powershell add-appxpackage -register "%AppData%\OutlookNewBlocker\AppxManifest.xml"
+
+cls
+echo Success! OutlookNewBlocker is "installed" and will now prevent Windows from downgrading your email and calendar experience to a slow web wrapper known as Outlook new!
+pause
 
 :konec
