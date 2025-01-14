@@ -1,4 +1,4 @@
-# "Outlook" (new) blocker and removal script
+# `Outlook (new)` blocker and removal script
 
 This script removes and prevents the Outlook (new) app from installing, allowing you to continue using the much better and more performant Mail and Calendar apps.
 
