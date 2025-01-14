@@ -108,7 +108,7 @@
   </Properties>
   <Applications>
     <Application EntryPoint="Windows.FullTrustApplication" Executable="olk.exe" Id="Microsoft.OutlookforWindows">
-      <uap:VisualElements AppListEntry="none" BackgroundColor="transparent" Description="Microsoft Outlook" DisplayName="Outlook (new)" Square150x150Logo="Assets\MedTile.png" Square44x44Logo="Assets\AppList.png">
+      <uap:VisualElements AppListEntry="none" BackgroundColor="transparent" Description="Microsoft Outlook" DisplayName="OutlookNewBlocker" Square150x150Logo="Assets\MedTile.png" Square44x44Logo="Assets\AppList.png">
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait" />
           <uap:Rotation Preference="landscape" />

@@ -3,7 +3,7 @@
 
 net session >nul 2>&1
 if %errorLevel% == 0 (
-    echo Success: Administrative privileges confirmed.
+    echo.
 ) else (
     echo Error: This batch file requires administrative privileges.
 	echo Right-click OutlookNewBlocker.bat and click "Run as administrator."
@@ -16,13 +16,17 @@ echo Copying AppxManifest.xml to %AppData%\OutlookNewBlocker
 if not exist %AppData%\OutlookNewBlocker mkdir %AppData%\OutlookNewBlocker
 copy "%~dp0AppxManifest.xml" "%AppData%\OutlookNewBlocker" >nul
 if %errorLevel% neq 0 (
-    echo Error: Failed to copy the file. Check if you have AppxManifest.xml file downloaded.
-	echo.
-    pause
-    goto konec
+    echo AppxManifest.xml not found, attempting to download from GitHub...
+    curl https://raw.githubusercontent.com/RoboMWM/OutlookNewBlocker/refs/heads/master/AppxManifest.xml -o %AppData%\OutlookNewBlocker
+    if %errorLevel% neq 0 (
+        echo.
+        echo Error: Failed to create AppxManifest.xml. Download AppxManifest.xml from GitHub and try again.
+	    echo.
+	    pause
+        goto konec
+    )
 )
-
-echo Modifying registry to allow development mode...
+echo Modifying registry to enable development mode...
 powershell "New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -PropertyType DWORD -Value 1 -Force" >nul 2>nul
 
 echo Removing Outlook appx package...
@@ -32,7 +36,7 @@ echo Registering AppxManifest.xml...
 powershell add-appxpackage -register "%AppData%\OutlookNewBlocker\AppxManifest.xml"
 
 cls
-echo Success! OutlookNewBlocker is "installed" and will now prevent Windows from downgrading your email and calendar experience to a slow web wrapper known as Outlook new!
+echo Success! OutlookNewBlocker is "installed" and will prevent Windows from installing Outlook new. You should now be able to continue using the Mail and Calendar apps without interruption!
 pause
 
 :konec
