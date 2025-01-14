@@ -18,7 +18,7 @@ copy "%~dp0AppxManifest.xml" "%AppData%\OutlookNewBlocker" >nul
 if %errorLevel% neq 0 (
     echo AppxManifest.xml not found, attempting to download from GitHub...
     curl https://raw.githubusercontent.com/RoboMWM/OutlookNewBlocker/refs/heads/master/AppxManifest.xml -o %AppData%\OutlookNewBlocker\AppxManifest.xml
-    if %errorLevel% neq 0 (
+    if %errorLevel% neq 1 (
         echo.
         echo Error: Failed to create AppxManifest.xml. Download AppxManifest.xml from GitHub and try again.
         echo.
